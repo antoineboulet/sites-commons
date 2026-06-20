@@ -4,3 +4,5 @@ format:
   html:
     lang: fr-FR
     date-format: "DD MMMM YYYY"
+    include-in-header:
+      - system/scripts/redirect-navbar-fr.html
