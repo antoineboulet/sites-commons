@@ -1,0 +1,10 @@
+/* contact-box links and icons */
+.contact-box a.external::after {
+  display: none !important;
+}
+.contact-box i {
+  display: inline-block;
+  width: 1.65em; 
+  text-align: center;
+}
+

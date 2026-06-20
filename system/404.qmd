@@ -1,0 +1,124 @@
+---
+pagetitle: "404"
+format:
+  html:
+    page-layout: full
+    toc: false
+
+css: styles/404.css
+---
+
+```{=html}
+
+
+<div class="page-404">
+
+  <div class="computing-label" id="computing-label-404">
+    computing...<span class="spinner-inline"></span>
+  </div>
+
+  <div class="diagrams-row">
+
+    <div class="diag-item" id="f404-d0">
+      <svg xmlns="http://www.w3.org/2000/svg" role="img" width="70" height="70" viewBox="0 0 511.43104 356.55"><path transform="matrix(3,0,0,-3,-339.56098,1538.904)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M113.38724 396.85533H283.4681"/>
+<path transform="matrix(3,0,0,-3,-339.56098,1538.904)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M113.38724 510.24259H283.4681"/></svg>
+      <div class="diag-order">𝒪(g⁰)</div>
+    </div>
+
+    <div class="diag-plus" style="margin-bottom:1em;" id="f404-p0">+</div>
+
+    <div class="diag-item" id="f404-d1">
+      <svg xmlns="http://www.w3.org/2000/svg" role="img" width="70" height="70" viewBox="0 0 511.43104 341.352"><path transform="matrix(3,0,0,-3,-339.56098,1106.109)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M113.38724 255.12128 198.42766 283.4681"/>
+<path transform="matrix(3,0,0,-3,-339.56098,1106.109)" stroke-width="4.0" stroke-linecap="round" stroke-dasharray="8.97,8.97" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M198.42766 283.4681V340.1617"/>
+<path transform="matrix(3,0,0,-3,-339.56098,1106.109)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M198.42766 340.1617 283.4681 368.5085"/>
+<path transform="matrix(3,0,0,-3,-339.56098,1106.109)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M113.38724 368.5085 198.42766 340.1617"/>
+<path transform="matrix(3,0,0,-3,-339.56098,1106.109)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M198.42766 283.4681 283.4681 255.12128"/></svg>
+      <div class="diag-order">𝒪(g²)</div>
+    </div>
+
+    <div class="diag-plus" style="margin-bottom:1em;" id="f404-p1">+</div>
+
+    <div class="diag-item" id="f404-d2">
+      <svg xmlns="http://www.w3.org/2000/svg" role="img" width="70" height="70" viewBox="0 0 511.43104 341.352"><path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M113.38724 113.38724 170.08086 141.73404"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M170.08086 141.73404H226.77448"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M226.77448 141.73404 283.4681 113.38724"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M113.38724 226.77448 170.08086 198.42766"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M170.08086 198.42766H226.77448"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M226.77448 198.42766 283.4681 226.77448"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-dasharray="8.97,8.97" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M170.08086 141.73404V198.42766"/>
+<path transform="matrix(3,0,0,-3,-339.56098,680.91299)" stroke-width="4.0" stroke-linecap="round" stroke-dasharray="8.97,8.97" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M226.77448 141.73404V198.42766"/></svg>
+      <div class="diag-order">𝒪(g⁴)</div>
+    </div>
+
+    <div class="diag-plus" style="margin-bottom:1em;" id="f404-p2">+</div>
+
+    <div class="diag-item" id="f404-d3">
+      <svg xmlns="http://www.w3.org/2000/svg" role="img" width="70" height="70" viewBox="0 0 511.43104 341.352"><path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M425.20213 340.1617 453.54896 368.5085"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M453.54896 368.5085H510.24259"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-dasharray="8.97,8.97" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M453.54896 368.5085V425.20213"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M425.20213 453.54896 453.54896 425.20213"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M453.54896 425.20213H510.24259"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-dasharray="8.97,8.97" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M510.24259 368.5085V425.20213"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M510.24259 368.5085H566.9362"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M510.24259 425.20213H566.9362"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-dasharray="8.97,8.97" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M566.9362 368.5085V425.20213"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M566.9362 368.5085 595.283 340.1617"/>
+<path transform="matrix(3,0,0,-3,-1274.991,1361.2261)" stroke-width="4.0" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="miter" fill="none" stroke="currentColor" d="M566.9362 425.20213 595.283 453.54896"/></svg>
+      <div class="diag-order">𝒪(g⁶)</div>
+    </div>
+
+    <div class="diag-plus" style="margin-bottom:1em;" id="f404-p3" style="font-size:1rem;">+ ···</div>
+
+    <div class="diag-item" style="margin-bottom:1.25em;" id="f404-d4">
+      <span class="diag-result">= 404</span>
+    </div>
+
+  </div>
+
+  <p class="tagline-en" id="f404-tagline-en">
+    This page was not found at any order in perturbation theory.
+  </p>
+  <p class="tagline-fr" id="f404-tagline-fr">
+    Cette page est introuvable à tout ordre en théorie des perturbations.
+  </p>
+
+</div>
+
+<script>
+(function () {
+  const labels = [
+    "computing 𝒪(g⁰)...",
+    "computing 𝒪(g²)...",
+    "computing 𝒪(g⁴)...",
+    "computing 𝒪(g⁶)...",
+    "summing series..."
+  ];
+  const steps = [
+    function () { document.getElementById('f404-d0').classList.add('visible'); },
+    function () { document.getElementById('f404-p0').classList.add('visible'); document.getElementById('f404-d1').classList.add('visible'); },
+    function () { document.getElementById('f404-p1').classList.add('visible'); document.getElementById('f404-d2').classList.add('visible'); },
+    function () { document.getElementById('f404-p2').classList.add('visible'); document.getElementById('f404-d3').classList.add('visible'); },
+    function () { document.getElementById('f404-p3').classList.add('visible'); document.getElementById('f404-d4').classList.add('visible'); }
+  ];
+  var delays = [300, 900, 1600, 2400, 3300];
+  var lbl = document.getElementById('computing-label-404');
+
+  steps.forEach(function (fn, i) {
+    setTimeout(function () {
+      lbl.innerHTML = labels[i] + '<span class="spinner-inline"></span>';
+      fn();
+    }, delays[i]);
+  });
+
+  setTimeout(function () {
+    lbl.style.opacity = '0';
+    setTimeout(function () { lbl.style.visibility = 'hidden'; }, 400);
+    document.getElementById('f404-tagline-en').classList.add('visible');
+  }, 4000);
+
+  setTimeout(function () {
+    document.getElementById('f404-tagline-fr').classList.add('visible');
+  }, 4500);
+})();
+</script>
+```

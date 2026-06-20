@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <title>nabla</title>
+  <style>
+    .n { fill: #1a1a1a; }
+    @media (prefers-color-scheme: dark) { .n { fill: #e0e0e0; } }
+  </style>
+  <path class="n" transform="matrix(0.041543 0 0 -0.041543 0.8368 29.5015)"
+    d="M667 662H63L359 -12H379ZM604 621 394 127 186 621Z"/>
+</svg>

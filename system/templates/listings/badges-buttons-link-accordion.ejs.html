@@ -1,0 +1,575 @@
+```{=html}
+<style>
+  .btn i {
+    display: inline-block;
+    width: 1.25em;
+    text-align: center;
+  }
+  .badge {
+    width: 95%;
+    max-width: 125px;
+  }
+  .g-btn-link a.external::after {
+    display: none !important;
+  }
+  .g-btn-link a.external,
+  .g-btn-link a.external:hover {
+    text-decoration: none;
+  }
+  .pub-entry {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .pub-entry:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .pub-title {
+    font-size: 1.00em;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .pub-meta {
+    color: var(--bs-secondary-color);
+    font-size: 0.92em;
+    line-height: 1.4;
+  }
+  .accordion-button.collapsed {
+    background-color: transparent;
+  }
+  .abstract-preview {
+    color: var(--bs-secondary-color);
+    font-style: italic;
+    font-weight: normal;
+    margin-left: 0.5em;
+    font-size: 0.92em;
+  }
+  .accordion-button:not(.collapsed) .abstract-preview {
+    display: none;
+  }
+</style>
+
+<%
+
+/* =====================================================================
+   PARAMÈTRES DE PAGE — type et langue
+
+   Un fichier de contenu YAML correspond à une seule page de listing,
+   donc à un seul type d'entrée et une seule langue. Ces deux valeurs
+   ne sont donc plus portées par chaque item, mais déclarées une fois
+   pour toute la page via `template-params` dans le front matter :
+
+     listing:
+       - id: hpc
+         template: ../../system/templates/listings/badges-buttons-link-accordion.ejs.html
+         contents: ../../data/research/hpc.yml
+         template-params:
+           type: hpc
+           lang: en
+
+   Valeurs de `type` reconnues : article, thesis, hpc, course, education,
+   experience, talks (+ alias ci-dessous : cours, conference, seminar).
+
+   Remarque : certains fichiers de contenu (ex. data/research/selected.yml,
+   data/teaching/selected.yml) sont des sous-ensembles dupliqués à la main
+   d'un autre fichier (articles.yml, preparatory.yml...) plutôt qu'un
+   filtre calculé — toute correction doit donc être répercutée dans les
+   deux fichiers (cf. README, section "Structure des données").
+   ===================================================================== */
+
+const params = (typeof templateParams !== "undefined") ? templateParams : {};
+const TYPE = params.type || null;
+const LANG = params.lang || "en";
+
+/* =====================================================================
+   STRINGS — tous les textes UI en un seul endroit
+   Pour ajouter une langue : ajouter un bloc `xx: { ... }` ci-dessous.
+   ===================================================================== */
+
+const STRINGS = {
+  en: {
+    badgeLecture:    "Lecture",
+    badgeTutorials:  "Tutorials",
+    badgeLaboratory: "Laboratory",
+    badgeProject:    "Project",
+    btnMaterials:    "Course materials (in French)",
+    descTitle:       "Course description",
+    descCodeTitle:   "Code description",
+    descAbstract:    "Abstract",
+    descDetails:     "Additional details",
+    copiedLabel:     "Copied!",
+    present:         "present",
+    hoursPerYear:    "hours per year",
+  },
+  fr: {
+    badgeLecture:    "Cours magistral",
+    badgeTutorials:  "Travaux dirigés",
+    badgeLaboratory: "Travaux pratiques",
+    badgeProject:    "Projet",
+    btnMaterials:    "Supports de cours",
+    descTitle:       "Description du cours",
+    descCodeTitle:   "Description du code",
+    descAbstract:    "Résumé",
+    descDetails:     "Détails supplémentaires",
+    copiedLabel:     "Copié !",
+    present:         "présent",
+    hoursPerYear:    "heures par an",
+  },
+};
+
+/** Chaînes d'interface pour la langue de la page (cf. TYPE / LANG ci-dessus) */
+const s = STRINGS[LANG] || STRINGS.en;
+
+/* =====================================================================
+   BUTTON PRESETS — icônes et factories d'URL centralisées
+   Pour modifier une icône ou une base d'URL : un seul endroit.
+   ===================================================================== */
+
+const BTN = {
+  pdf:    (arxiv)  => ({ text: ".pdf",  icon: "bi bi-file-earmark-pdf",   link: `https://arxiv.org/pdf/${arxiv}` }),
+  arxiv:  (arxiv)  => ({ text: "arXiv", icon: "ai ai-arxiv",              link: `https://arxiv.org/abs/${arxiv}` }),
+  hal:    (hal)    => ({ text: ".pdf",  icon: "bi bi-file-earmark-pdf",   link: `https://theses.hal.science/${hal}/document` }),
+  halAbs: (hal)    => ({ text: "HAL",   icon: "ai ai-hal",                link: `https://theses.hal.science/${hal}` }),
+  url:    (href)   => ({ text: "URL",   icon: "bi bi-box-arrow-up-right", link: href }),
+  code:   (link)   => ({ text: "code",  icon: "bi bi-code-slash",         link }),
+  book:   (text, link) => ({ text, icon: "bi bi-book-half", link }),
+};
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+
+/** Garantit un tableau : enveloppe une valeur scalaire dans un tableau
+ *  à un seul élément (les valeurs déjà sous forme de tableau passent
+ *  inchangées). Utilisé pour les champs qui acceptent indifféremment
+ *  une valeur unique ou une liste dans le YAML (ex. `language`). */
+let toArray = (v) => Array.isArray(v) ? v : [v];
+
+/** Normalise un champ auteur·s en tableau, qu'il soit déjà une liste
+ *  YAML ou une chaîne unique "A, B and C" / "A, B, C". */
+let toAuthorArray = (a) =>
+  Array.isArray(a) ? a : String(a).split(/\s*,\s*|\s+and\s+/);
+
+/** Rendu lisible "A, B and C" (dernier auteur relié par "and"). */
+let displayAuthors = (a) => {
+  let arr = toAuthorArray(a);
+  return arr.length > 1
+    ? arr.slice(0, -1).join(", ") + " and " + arr[arr.length - 1]
+    : arr[0];
+};
+
+/** Rendu "A and B and C" attendu par le champ BibTeX `author`. */
+let bibtexAuthors = (a) => toAuthorArray(a).join(" and ");
+
+/** Construit une entrée BibTeX `@type{id, champ = {valeur}, ...}` à
+ *  partir d'un objet de champs ; utilisé par les mappers article/thesis. */
+let makeBibtex = (type, id, fields) => {
+  let lines = Object.entries(fields)
+    .map(([k, v]) => `  ${k.padEnd(14)}= {${v}}`)
+    .join(",\n");
+  return `@${type}{${id},\n${lines}\n}`;
+};
+
+/** Résout un champ multilingue { en, fr } pour la langue de la page.
+ *  Un champ déjà simple (string, etc.) est retourné inchangé, donc cet
+ *  helper peut être appliqué systématiquement, multilingue ou pas. */
+let t = (field) => {
+  if (field == null) return field;
+  if (typeof field === "object" && !Array.isArray(field)) {
+    return field[LANG] ?? field.en ?? field.fr ?? "";
+  }
+  return field;
+};
+
+/** Formate une plage "début–fin" à partir de :
+ *  - un objet période { start, end }, avec end éventuellement "present" ;
+ *  - ou un tableau d'années, ex. [2022, 2023] (plage min–max). */
+let formatRange = (input) => {
+  let start, end;
+  if (Array.isArray(input)) {
+    let sorted = [...input].sort((a, b) => a - b);
+    start = sorted[0];
+    end   = sorted[sorted.length - 1];
+  } else if (input && typeof input === "object") {
+    start = input.start;
+    end   = input.end;
+  } else {
+    return input != null ? `${input}` : "";
+  }
+  let endLabel = end === "present" ? s.present : end;
+  return start === end ? `${start}` : `${start}–${endLabel}`;
+};
+
+/** Affiche une URL sans son protocole, pour un rendu compact. */
+let simplifyUrl = (url) => String(url).replace(/^https?:\/\//, "");
+
+/* =====================================================================
+   TYPE MAPPERS
+   Chaque mapper reçoit un item du fichier YAML de contenu et retourne
+   un objet normalisé (badges, title, posttitle, buttons, external,
+   description, bibtex...) consommé par le rendu HTML ci-dessous.
+   ===================================================================== */
+
+let TYPE_MAPPERS = {
+
+  /* -----------------------------------------------------------------
+     ARTICLE — publication en revue (data/research/articles.yml,
+     data/research/selected.yml). `item.arxiv` alimente à la fois les
+     boutons PDF/arXiv et le champ BibTeX `eprint`.
+     ----------------------------------------------------------------- */
+  article(item) {
+    let authorDisplay = displayAuthors(item.author);
+    let authorBibtex  = bibtexAuthors(item.author);
+    return {
+      badges:    [item.abbreviation],
+      postbadge: item.year,
+      title:     item.title,
+      posttitle: `${authorDisplay}, ${item.journal} <b>${item.volume}</b>, ${item.pages} (${item.year})`,
+      buttons: [
+        BTN.pdf(item.arxiv),
+        BTN.arxiv(item.arxiv),
+      ],
+      external: { link: `https://doi.org/${item.doi}`, pretext: "doi:", text: item.doi },
+      description: { title: s.descAbstract, content: item.abstract },
+      bibtex: makeBibtex("article", item.id, {
+        author:        authorBibtex,
+        title:         item.title,
+        journal:       item.journal,
+        volume:        item.volume,
+        pages:         item.pages,
+        year:          item.year,
+        doi:           item.doi,
+        eprint:        item.arxiv,
+        archivePrefix: "arXiv",
+      }),
+    };
+  },
+
+  /* -----------------------------------------------------------------
+     THESIS — soutenance de thèse (data/research/thesis.yml). Les liens
+     PDF et HAL sont reconstruits à partir de `item.hal` ; les champs
+     `pdf`/`url` présents dans le YAML ne sont PAS lus par ce mapper.
+     ----------------------------------------------------------------- */
+  thesis(item) {
+    let authorDisplay = displayAuthors(item.author);
+    let authorBibtex  = bibtexAuthors(item.author);
+    return {
+      badges:    [item.abbreviation],
+      postbadge: item.year,
+      title:     item.title,
+      posttitle: `${authorDisplay}, ${item.school} (${item.year})`,
+      buttons: [
+        BTN.hal(item.hal),
+        BTN.halAbs(item.hal),
+      ],
+      external: { link: `https://theses.fr/${item.nnt}`, pretext: "nnt:", text: item.nnt },
+      description: { title: s.descAbstract, content: item.abstract },
+      bibtex: makeBibtex("phdthesis", item.id, {
+        author: authorBibtex,
+        title:  item.title,
+        school: item.school,
+        year:   item.year,
+        note:   `NNT: ${item.nnt}`,
+      }),
+    };
+  },
+
+  /* -----------------------------------------------------------------
+     HPC — remplace l'ancien mapper "code" (data/research/hpc.yml).
+     Les champs `license` et `status` existent dans le YAML mais ne
+     sont PAS lus ici (aucun affichage associé pour l'instant).
+     ----------------------------------------------------------------- */
+  hpc(item) {
+    let authorDisplay = displayAuthors(item.author);
+    let links = item.links || {};
+    let buttons = [];
+    if (links.website)    buttons.push(BTN.url(links.website));
+    if (links.repository) buttons.push(BTN.code(links.repository));
+    return {
+      badges:    toArray(item.language),
+      title:     item.title,
+      posttitle: `${authorDisplay} (${formatRange(item.period)})`,
+      buttons,
+      external: links.documentation
+        ? { link: links.documentation, pretext: "docs: ", text: simplifyUrl(links.documentation) }
+        : null,
+      description: { title: s.descCodeTitle, content: item.description },
+    };
+  },
+
+  /* -----------------------------------------------------------------
+     COURSE — mapper unifié EN + FR (titre/description multilingues).
+     Seul `item.teaching.*.hours` est lu pour le total d'heures et les
+     badges. D'éventuels champs `lecture/tutorials/laboratory/project`
+     au premier niveau de l'item (hors `teaching`, présents dans
+     certaines entrées legacy de graduate.yml) sont IGNORÉS : seul le
+     bloc `teaching: {...}` est canonique. De même, un sous-champ
+     `approximate: true` à côté de `hours` n'a aucun effet visuel ici.
+     ----------------------------------------------------------------- */
+  course(item) {
+    let teaching = item.teaching || {};
+    let totalHours = Object.values(teaching)
+      .reduce((sum, te) => sum + (te && te.hours ? te.hours : 0), 0);
+    return {
+      badges: [
+        teaching.lecture    ? s.badgeLecture    : null,
+        teaching.tutorials  ? s.badgeTutorials  : null,
+        teaching.laboratory ? s.badgeLaboratory : null,
+        teaching.project    ? s.badgeProject    : null,
+      ],
+      title:       t(item["course-title"]),
+      posttitle:   `${formatRange(item.years)} (${totalHours} ${s.hoursPerYear})`,
+      buttons: item.materials
+        ? [BTN.book(s.btnMaterials, item.materials)]
+        : [],
+      information: item.promotion || null,
+      description: { title: s.descTitle, content: t(item["course-description"]) },
+    };
+  },
+
+  /* -----------------------------------------------------------------
+     EDUCATION — diplôme (data/cv/education.yml). `details` est
+     optionnel : l'accordéon ne s'affiche que s'il est renseigné
+     (aucune entrée actuelle ne l'utilise).
+     ----------------------------------------------------------------- */
+  education(item) {
+    return {
+      badges:    [formatRange(item.period)],
+      title: `${t(item.degree)}${item.focus ? ` (${t(item.focus)})` : ''}`,
+      posttitle: t(item.institution),
+      description: { title: s.descDetails, content: t(item.details) },
+    };
+  },
+
+  /* -----------------------------------------------------------------
+     EXPERIENCE — poste occupé (data/cv/experience.yml). Même schéma
+     de retour qu'EDUCATION ci-dessus (period/titre/sous-titre/détails).
+     ----------------------------------------------------------------- */
+  experience(item) {
+    return {
+      badges:    [formatRange(item.period)],
+      title:     t(item.position),
+      posttitle: t(item.location),
+      description: { title: s.descDetails, content: t(item.details) },
+    };
+  },
+
+  /* -----------------------------------------------------------------
+     TALKS — conférence ou séminaire, via les alias "conference" et
+     "seminar" (cf. ALIAS_TYPES ci-dessous ; data/research/conferences.yml,
+     data/research/seminars.yml). Mapper volontairement minimal : pas de
+     boutons, lien externe, accordéon ni BibTeX pour ce type d'entrée.
+     ----------------------------------------------------------------- */
+  talks(item) {
+    return {
+      badges:    [item.year],
+      title:     item.subtitle ? `${item.title} (${item.subtitle})` : item.title,
+      posttitle: `${item.event}, ${item.location}`,
+    };
+  },
+
+};
+
+/* =====================================================================
+   ALIAS TYPES — types qui partagent le mapper d'un type déjà défini
+   Pour ajouter un alias : { alias: "type_existant" }
+   ===================================================================== */
+
+const ALIAS_TYPES = {
+  cours:      "course",  // ancien nom FR → mapper unifié
+  conference: "talks",   // interventions en colloque
+  seminar:    "talks",   // séminaires invités
+};
+
+/* =====================================================================
+   RÉSOLUTION DU MAPPER
+   Une seule fois pour toute la page : tous les items d'un même fichier
+   de contenu partagent le même type (cf. PARAMÈTRES DE PAGE ci-dessus).
+   ===================================================================== */
+
+let resolvedType = ALIAS_TYPES[TYPE] || TYPE;
+let mapper = TYPE_MAPPERS[resolvedType];
+
+/* =====================================================================
+   ABSTRACT PREVIEW HELPER
+   Tronque un texte pouvant contenir des balises b/strong/em/i à une
+   longueur visible donnée (les balises ne comptent pas dans la longueur),
+   en refermant proprement celles restées ouvertes au point de coupure.
+   ===================================================================== */
+
+let makePreview = (html, maxLen = 140) => {
+  let safe = String(html).replace(/<(?!\/?(?:b|strong|em|i)(?:\s|>))[^>]*>/gi, "");
+  let plainLen = safe.replace(/<[^>]*>/g, "").length;
+  if (plainLen <= maxLen) return safe.trim();
+
+  let count = 0, result = "", inTag = false, openTags = [];
+  for (let i = 0; i < safe.length && count < maxLen; i++) {
+    if (safe[i] === "<") inTag = true;
+    if (!inTag) count++;
+    result += safe[i];
+    if (safe[i] === ">") {
+      inTag = false;
+      let m = result.match(/<(\/?)(b|strong|em|i)(?:\s|>)/i);
+      if (m) { m[1] ? openTags.pop() : openTags.push(m[2]); }
+    }
+  }
+  openTags.reverse().forEach(t => { result += `</${t}>`; });
+  return result.trim() + "…";
+};
+
+%>
+
+<div class="list grid" style="--bs-gap: 0; --bs-columns: 10;">
+
+  <% for (let idx = 0; idx < items.length; idx++) { const item = items[idx]; %>
+
+  <%
+    let d = mapper ? mapper(item) : {};
+
+    /* Toutes les clés retournées par un TYPE_MAPPER sont optionnelles ;
+       on applique ici des valeurs de repli uniformes avant le rendu
+       HTML ci-dessous, qui ignore volontairement le `type` d'origine. */
+    let badges      = (d.badges || []).filter(Boolean);
+    let prebadge    = d.prebadge    || null;
+    let postbadge   = d.postbadge   || null;
+    let pretitle    = d.pretitle    || null;
+    let title       = d.title       || null;
+    let posttitle   = d.posttitle   || null;
+    let buttons     = d.buttons     || [];
+    let external    = d.external    || null;
+    let information = d.information || null;
+    let tags        = d.tags        || null; // réservé pour un usage futur (non utilisé par les mappers actuels)
+    let description = d.description || null;
+    let bibtex      = d.bibtex      || null;
+
+    /* Repli si l'item n'a pas d'id, pour éviter des id HTML dupliqués/"undefined" */
+    let id = item.id || `item-${idx}`;
+  %>
+
+  <div class="pub-entry g-col-12" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 0; --bs-columns: 10;">
+
+    <!-- BADGES -->
+    <div class="g-col-12 g-col-md-2">
+      <small><%= prebadge %></small>
+      <% badges.forEach(b => { %>
+        <span class="badge bg-secondary list-bg"><%= b %></span>
+      <% }); %>
+      <small><%= postbadge %></small>
+    </div>
+
+    <div class="g-col-12 g-col-md-8">
+      <p style="margin-bottom: 0;">
+
+        <!-- TITLE -->
+        <span class="pub-title"><%= pretitle %><%= title %></span><br>
+        <span class="pub-meta">
+          <%= posttitle %>.
+          <% if (external) { %>
+            <a href="<%= external.link %>" class="external-link">
+              <%= external.pretext %><%= external.text %><%= external.posttext %>
+            </a>
+          <% } %>
+          <%= information %>
+        </span>
+
+        <!-- BUTTONS -->
+        <% if (buttons.length || bibtex || information) { %>
+          <div class="list grid" style="--bs-gap: 0; margin-top: 0.35em;">
+            <div class="g-col-12 g-col-md-7 g-btn-link">
+              <% buttons.forEach(b => { %>
+                <a href="<%= b.link %>" class="btn btn-light btn-sm">
+                  <i class="<%= b.icon %>"></i>
+                  <span style="font-family: monospace;"><%= b.text %></span>
+                </a>
+              <% }); %>
+              <% if (bibtex) { %>
+                <button type="button" class="btn btn-light btn-sm btn-bibtex" data-bibtex="<%= encodeURIComponent(bibtex) %>" data-copied-label="<%= s.copiedLabel %>">
+                  <i class="bi bi-clipboard"></i>
+                  <span style="font-family: monospace;">BibTeX</span>
+                </button>
+              <% } %>
+            </div>
+            <% if (information) { %>
+              <div class="g-col-12 g-col-md-3" style="display: flex; align-items: center;">
+                <small><span style="font-family: monospace;"><%= tags %></span></small>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+
+        <!-- ACCORDION -->
+        <% if (description && description.content) { %>
+          <div class="accordion" id="accordion-<%= id %>" style="margin-top: 0.4em;">
+            <div class="accordion-item">
+              <span class="accordion-header" id="heading-<%= id %>" style="--bs-accordion-btn-padding-y: 0.4rem; --bs-accordion-btn-padding-x: 0.6rem;">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= id %>" aria-expanded="false" aria-controls="collapse-<%= id %>">
+                  <span>
+                    <i class="bi bi-body-text icon-btn"></i> <%= description.title %>
+                    <span class="abstract-preview"><%= makePreview(description.content) %></span>
+                  </span>
+                </button>
+              </span>
+              <div id="collapse-<%= id %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= id %>" data-bs-parent="#accordion-<%= id %>">
+                <div class="accordion-body">
+                  <%= description.content %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% } %>
+
+      </p>
+    </div>
+
+  </div>
+
+  <% } %>
+
+</div>
+
+<script>
+// Bouton "Copier le BibTeX" : copie le texte dans le presse-papiers et
+// affiche un retour visuel temporaire ("Copied!"/"Copié !"). Idempotent
+// (cf. dataset.bound) car ce même bloc <script> est injecté une fois par
+// listing présent sur la page (ex. les 4 listings de content/cv.qmd).
+(function () {
+  function attachBibtexHandlers() {
+    document.querySelectorAll(".btn-bibtex").forEach(function (btn) {
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", function () {
+        var text = decodeURIComponent(btn.getAttribute("data-bibtex"));
+        var iconSpan = btn.querySelector("span");
+        var icon = btn.querySelector("i");
+
+        function showCopied() {
+          var origIconClass = icon.className;
+          var origText = iconSpan.textContent;
+          icon.className = "bi bi-clipboard-check";
+          iconSpan.textContent = btn.getAttribute("data-copied-label") || "Copied!";
+          setTimeout(function () {
+            icon.className = origIconClass;
+            iconSpan.textContent = origText;
+          }, 1500);
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(showCopied);
+        } else {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          showCopied();
+        }
+      });
+    });
+  }
+  attachBibtexHandlers();
+})();
+</script>
+```

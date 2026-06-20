@@ -1,0 +1,111 @@
+```{=html}
+<style>
+  .quarto-accordion .accordion-button.collapsed {
+    background-color: transparent;
+  }
+  .quarto-accordion .accordion-header-content {
+    font-weight: 600;
+  }
+  .quarto-accordion .accordion-body-content p:last-child {
+    margin-bottom: 0;
+  }
+</style>
+ 
+<%
+ 
+/* =====================================================================
+   PARAMÈTRES DE PAGE — langue et identifiant du groupe d'accordéon
+
+   Exemple réel (cf. content/research/overview-highlights.qmd /
+   content/recherche/index.qmd) :
+
+     listing:
+       - id: research-highlights
+         template: ../../system/templates/listings/accordion.ejs.html
+         contents: ../../data/research/highlights.yml
+         template-params:
+           lang: en
+           id: research-highlights   # optionnel, défaut "accordion"
+
+   Renseigner `id` (template-params) si plusieurs listings de ce type
+   cohabitent sur une même page, pour éviter des id Bootstrap dupliqués
+   (data-bs-parent, aria-controls...) entre leurs accordéons respectifs.
+
+   Données attendues par item (cf. data/research/highlights.yml) :
+     - id: IPN
+       header: { en: "...", fr: "..." }
+       body:   { en: "...", fr: "..." }
+
+   Rendu volontairement minimal (gras/italique + paragraphes seulement,
+   pas de listes ni de liens) : pour un rendu plus riche (boutons, BibTeX,
+   accordéon de résumé...), voir badges-buttons-link-accordion.ejs.html.
+   ===================================================================== */
+ 
+const params = (typeof templateParams !== "undefined") ? templateParams : {};
+const LANG = params.lang || "en";
+const GROUP_ID = params.id || "accordion";
+ 
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+ 
+/** Résout un champ multilingue { en, fr } pour la langue de la page. */
+let t = (field) => {
+  if (field == null) return field;
+  if (typeof field === "object" && !Array.isArray(field)) {
+    return field[LANG] ?? field.en ?? field.fr ?? "";
+  }
+  return field;
+};
+ 
+/** Échappe les caractères HTML spéciaux (&, <, >) avant toute insertion ;
+ *  appelé par mdInline() avant d'y réinjecter les balises <strong>/<em>. */
+let escapeHtml = (str) => String(str)
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+ 
+/** Gras/italique Markdown -> HTML, sur du texte déjà échappé. */
+let mdInline = (text) => {
+  let safe = escapeHtml(text);
+  safe = safe.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  safe = safe.replace(/\*(.+?)\*/g, "<em>$1</em>");
+  return safe;
+};
+ 
+/** Texte multi-paragraphes (séparés par une ligne vide) -> HTML. */
+let mdBlock = (text) => {
+  let paragraphs = String(text).trim().split(/\n\s*\n/);
+  return paragraphs.map(p => `<p>${mdInline(p.trim())}</p>`).join("\n");
+};
+ 
+%>
+ 
+<div class="accordion quarto-accordion" id="<%= GROUP_ID %>">
+ 
+  <% items.forEach((item, idx) => { %>
+  <%
+    /* Repli si l'item n'a pas d'id, pour éviter des id HTML dupliqués/"undefined"
+       (même logique que dans badges-buttons-link-accordion.ejs.html). */
+    let id = item.id || `item-${idx}`;
+    let headingId  = `heading-${GROUP_ID}-${id}`;
+    let collapseId = `collapse-${GROUP_ID}-${id}`;
+  %>
+ 
+  <div class="accordion-item">
+    <span class="accordion-header" id="<%= headingId %>">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
+        <span class="accordion-header-content"><%= mdInline(t(item.header)) %></span>
+      </button>
+    </span>
+    <div id="<%= collapseId %>" class="accordion-collapse collapse" aria-labelledby="<%= headingId %>" data-bs-parent="#<%= GROUP_ID %>">
+      <div class="accordion-body">
+        <div class="accordion-body-content"><%= mdBlock(t(item.body)) %></div>
+      </div>
+    </div>
+  </div>
+ 
+  <% }); %>
+ 
+</div>
+```

@@ -1,0 +1,34 @@
+/* scss styles for notebook post */
+
+body {
+  font-family: "STIX Two Text", serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "STIX Two Text", sans-serif;
+}
+
+footer,
+.page-footer,
+.nav-footer {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.quarto-title-block
+{
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.quarto-title .title {
+  font-family: "STIX Two Text", sans-serif;
+}
+
+.navbar,
+.sidebar, /*.quarto-sidebar*/
+#TOC {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.nav-page a {
+  font-family: "IBM Plex Sans", sans-serif;
+}

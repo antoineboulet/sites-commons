@@ -1,0 +1,28 @@
+/* navvar styles */
+.navbar {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* links styles */
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a[href^="http://localhost:"],
+a[href^="https://antoineboulet.github.io/"] {
+  text-decoration: none;
+}
+a[href^="http://localhost:"]:hover,
+a[href^="https://antoineboulet.github.io/"]:hover {
+  text-decoration: none;
+}
+a[href^="http://localhost:"]::after,
+a[href^="https://antoineboulet.github.io/"]::after {
+  display: none !important;
+}
+.no-external-icon::after {
+  display: none !important;
+}

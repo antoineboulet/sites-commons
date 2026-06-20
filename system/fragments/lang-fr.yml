@@ -1,0 +1,6 @@
+lang: fr
+
+format:
+  html:
+    lang: fr-FR
+    date-format: "DD MMMM YYYY"

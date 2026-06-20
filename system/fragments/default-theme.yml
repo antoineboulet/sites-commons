@@ -1,0 +1,13 @@
+format:
+  html:
+    link-external-newwindow: true
+    link-external-icon: true
+    theme:
+      light: 
+        - flatly
+        - brand
+      dark: 
+        - darkly
+        - brand
+    css: 
+      - system/styles/theme.css

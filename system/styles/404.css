@@ -1,0 +1,102 @@
+footer {
+    display: none;
+}
+
+.page-404 {
+    padding: 1.5rem;
+    text-align: center;
+    font-family: var(--bs-font-sans-serif);
+}
+
+.diagrams-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+    min-height: 90px;
+}
+
+.diag-item {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.diag-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.diag-plus {
+    font-size: 1.2rem;
+    color: currentColor;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.diag-plus.visible {
+    opacity: 1;
+}
+
+.diag-order {
+    font-size: 0.7rem;
+    color: #999;
+    margin-top: 4px;
+    font-family: monospace;
+    text-align: center;
+}
+
+.diag-result {
+    font-size: 1.1rem;
+    color: currentColor;
+    font-family: monospace;
+}
+
+.computing-label {
+    font-size: 0.75rem;
+    color: #aaa;
+    font-family: monospace;
+    height: 1.4em;
+    transition: opacity 0.3s;
+}
+
+.spinner-inline {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid #ddd;
+    border-top-color: #999;
+    border-radius: 50%;
+    animation: spin404 0.7s linear infinite;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+@keyframes spin404 {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.tagline-en {
+    font-size: 1rem;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    margin: 0.5rem 0 0.25rem;
+}
+
+.tagline-fr {
+    font-size: 0.85rem;
+    color: #888;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.tagline-en.visible,
+.tagline-fr.visible {
+    opacity: 1;
+}
