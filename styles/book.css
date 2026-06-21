@@ -41,7 +41,8 @@ footer,
     font-family: "IBM Plex Sans", sans-serif;
 }
 
-#title-block-header .quarto-title .title .chapter-title, .chapter-number
+#title-block-header .quarto-title .title .chapter-title, 
+#title-block-header .quarto-title .title .chapter-number
 {
     font-family: "STIX Two Text", sans-serif;
 }
