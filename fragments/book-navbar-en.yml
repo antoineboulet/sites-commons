@@ -1,5 +1,5 @@
 # source: antoineboulet.github.io/_quarto-en.yml
-website:
+book:
   navbar:
     left:
       - text: research
