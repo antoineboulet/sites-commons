@@ -1,0 +1,31 @@
+\documentclass[tikz, border=2pt, 11pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{STIX Two Text}
+\usepackage{unicode-math}
+\setmathfont{STIX Two Math}
+\usepackage{tikz}
+
+% Palette Okabe-Ito (colorblind-safe) -- variante LIGHT
+% Texte/traits par defaut en noir, lisible sur fond clair/transparent
+\definecolor{okBlack}{RGB}{0,0,0}
+\definecolor{okOrange}{RGB}{230,159,0}
+\definecolor{okSkyBlue}{RGB}{86,180,233}
+\definecolor{okGreen}{RGB}{0,158,115}
+\definecolor{okYellow}{RGB}{240,228,66}
+\definecolor{okBlue}{RGB}{0,114,178}
+\definecolor{okVermillion}{RGB}{213,94,0}
+\definecolor{okPurple}{RGB}{204,121,167}
+
+% Couleurs semantiques utilisees dans les figures
+% (utiliser ces noms dans vos .tex de figures, jamais les couleurs ok* directement)
+\colorlet{figDefault}{okBlack}
+\colorlet{figA}{okOrange}
+\colorlet{figB}{okSkyBlue}
+\colorlet{figC}{okGreen}
+\colorlet{figD}{okVermillion}
+
+% Couleur et epaisseur par defaut appliquees globalement (pas besoin
+% d'enrober chaque tikzpicture : on definit les defauts TikZ directement)
+\tikzset{every node/.style={color=figDefault}, every path/.style={color=figDefault}}
+
+\begin{document}

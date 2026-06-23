@@ -1,0 +1,29 @@
+\documentclass[tikz, border=2pt, 11pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{STIX Two Text}
+\usepackage{unicode-math}
+\setmathfont{STIX Two Math}
+\usepackage{tikz}
+
+% Palette Okabe-Ito adaptee -- variante DARK
+% Pas une inversion automatique : couleurs choisies a la main pour
+% rester colorblind-safe ET suffisamment contrastees sur fond sombre.
+\definecolor{okWhite}{RGB}{255,255,255}
+\definecolor{okOrange}{RGB}{255,176,46}
+\definecolor{okSkyBlue}{RGB}{120,200,245}
+\definecolor{okGreen}{RGB}{49,196,150}
+\definecolor{okYellow}{RGB}{245,235,110}
+\definecolor{okBlue}{RGB}{70,150,220}
+\definecolor{okVermillion}{RGB}{255,140,80}
+\definecolor{okPurple}{RGB}{224,160,196}
+
+% Memes noms semantiques que la palette light : seules les valeurs changent
+\colorlet{figDefault}{okWhite}
+\colorlet{figA}{okOrange}
+\colorlet{figB}{okSkyBlue}
+\colorlet{figC}{okGreen}
+\colorlet{figD}{okVermillion}
+
+\tikzset{every node/.style={color=figDefault}, every path/.style={color=figDefault}}
+
+\begin{document}
