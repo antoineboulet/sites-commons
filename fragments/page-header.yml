@@ -5,3 +5,4 @@ format:
 
 filters:
   - system/filters/margin-html-figure.lua
+  - system/filters/hint.lua
