@@ -1,2 +1,11 @@
 website:
   favicon: system/favicon.svg
+  sidebar:
+    style: "docked"
+    collapse-level: 2
+
+cap-location: margin
+page-layout: article
+
+comments:
+  hypothesis: true
