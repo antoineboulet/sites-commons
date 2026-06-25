@@ -1,7 +1,0 @@
-book:
-  search: 
-    location: navbar
-  open-graph: true
-  navbar: 
-    background: light
-    title: "Antoine Boulet"
