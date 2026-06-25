@@ -1,9 +1,10 @@
 comments:
   hypothesis: true
 
-sidebar:
-  style: docked
-  collapse-level: 2
+book:
+  sidebar:
+    style: docked
+    collapse-level: 2
 
 format:
   html:
