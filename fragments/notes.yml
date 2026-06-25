@@ -1,0 +1,13 @@
+comments:
+  hypothesis: true
+
+sidebar:
+  style: docked
+  collapse-level: 2
+
+format:
+  html:
+    css: 
+      - system/styles/notes.css
+    include-in-header:
+      - system/scripts/mathjax-config-stix.html   

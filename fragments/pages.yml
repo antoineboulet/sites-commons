@@ -1,0 +1,20 @@
+website:
+  favicon: system/favicon.svg
+  sidebar:
+    style: "docked"
+    collapse-level: 2
+
+cap-location: margin
+page-layout: article
+
+comments:
+  hypothesis: true
+
+format:
+  html:
+    css: 
+      - system/styles/pages.css
+    include-in-header:
+      - system/scripts/mathjax-config-stix.html   
+
+
