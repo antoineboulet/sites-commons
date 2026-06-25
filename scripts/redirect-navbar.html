@@ -1,0 +1,13 @@
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const brand = document.querySelector(".navbar-brand");
+  if (!brand) return;
+
+  const lang = document.documentElement.lang || "";
+  const root = lang.startsWith("fr")
+    ? "https://antoineboulet.github.io/fr/"
+    : "https://antoineboulet.github.io/en/";
+
+  brand.href = root;
+});
+</script>

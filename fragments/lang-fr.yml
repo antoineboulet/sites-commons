@@ -5,7 +5,7 @@ format:
     lang: fr-FR
     date-format: "DD MMMM YYYY"
     include-in-header:
-      - system/scripts/redirect-navbar-fr.html
+      - system/scripts/redirect-navbar.html
 
 # source: antoineboulet.github.io/_quarto-fr.yml
 website:
