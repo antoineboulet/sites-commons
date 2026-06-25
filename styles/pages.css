@@ -1,48 +1,19 @@
-/* scss styles for notebook post */
+/* ─── pages.css ──────────────────────────────────────────────────────────────
+   Style pour les pages statiques. Identique à notes.css — gardé séparé
+   pour permettre une divergence future sans toucher notes.css.
+──────────────────────────────────────────────────────────────────────────── */
 
-body {
-  font-family: "STIX Two Text", serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "STIX Two Text", serif;
-}
-
-footer,
-.page-footer,
-.nav-footer {
-  font-family: "IBM Plex Sans", sans-serif;
-}
-
-.quarto-title-block
-{
-  font-family: "IBM Plex Sans", sans-serif;
-}
+@import "base.css";
 
 .quarto-title .title {
   font-family: "STIX Two Text", serif;
 }
 
-.navbar,
-.sidebar, /*.quarto-sidebar*/
-#TOC {
+#title-block-header .quarto-title .title {
   font-family: "IBM Plex Sans", sans-serif;
 }
 
-.nav-page a {
-  font-family: "IBM Plex Sans", sans-serif;
-}
-
-
-
-
-#title-block-header .quarto-title .title
-{
-    font-family: "IBM Plex Sans", sans-serif;
-}
-
-#title-block-header .quarto-title .title .chapter-title, 
-#title-block-header .quarto-title .title .chapter-number
-{
-    font-family: "STIX Two Text", serif;
+#title-block-header .quarto-title .title .chapter-title,
+#title-block-header .quarto-title .title .chapter-number {
+  font-family: "STIX Two Text", serif;
 }

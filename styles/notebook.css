@@ -1,26 +1,10 @@
-/* scss styles for notebook post */
+/* ─── notebook.css ───────────────────────────────────────────────────────────
+   Style pour les notebooks. Corps et titres en STIX Two Text (serif).
+   Titre de page en IBM Plex Sans (sans-serif), contrairement à notes/pages.
+──────────────────────────────────────────────────────────────────────────── */
 
-body {
-  font-family: "STIX Two Text", serif;
-}
+@import "base.css";
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "STIX Two Text", serif;
-}
-
-footer,
-.page-footer,
-.nav-footer {
-  font-family: "IBM Plex Sans", sans-serif;
-}
-
-.quarto-title-block,
 .quarto-title .title {
-  font-family: "IBM Plex Sans", sans-serif;
-}
-
-.navbar,
-.quarto-sidebar,
-#TOC {
   font-family: "IBM Plex Sans", sans-serif;
 }

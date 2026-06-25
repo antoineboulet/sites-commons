@@ -1,10 +1,19 @@
-/* contact-box links and icons */
+/* ─── about.css ──────────────────────────────────────────────────────────────
+   Styles pour la page about / contact.
+──────────────────────────────────────────────────────────────────────────── */
+
+/* Supprime l'indicateur de lien externe sur les liens du contact-box */
 .contact-box a.external::after {
   display: none !important;
 }
-.contact-box i {
+
+/* Aligne les icônes Bootstrap Icons et Font Awesome dans le contact-box.
+   On cible uniquement les icônes (classes bi-*, ai-* et fa-*) pour ne pas
+   affecter le texte en italique (<i> sans classe d'icône). */
+.contact-box i[class*="bi-"],
+.contact-box i[class*="ai-"],
+.contact-box i[class*="fa-"] {
   display: inline-block;
-  width: 1.65em; 
+  width: 1.65em;
   text-align: center;
 }
-

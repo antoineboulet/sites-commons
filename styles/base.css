@@ -1,0 +1,33 @@
+/* ─── base.css ───────────────────────────────────────────────────────────────
+   Règles communes à notebook.css, notes.css et pages.css.
+   Ne pas inclure directement dans _quarto.yml — passer par les fichiers
+   spécialisés qui font @import de ce fichier.
+──────────────────────────────────────────────────────────────────────────── */
+
+body {
+  font-family: "STIX Two Text", serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "STIX Two Text", serif;
+}
+
+footer,
+.page-footer,
+.nav-footer {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.quarto-title-block {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.navbar,
+.sidebar,
+#TOC {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.nav-page a {
+  font-family: "IBM Plex Sans", sans-serif;
+}
