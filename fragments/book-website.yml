@@ -6,3 +6,14 @@ book:
     background: light
     title: "Antoine Boulet"
   favicon: system/favicon.svg
+
+  author: "Antoine Boulet"
+  date: today
+  downloads: [pdf]
+
+  sidebar:
+    style: docked
+    collapse-level: 2
+
+comments:
+  hypothesis: true

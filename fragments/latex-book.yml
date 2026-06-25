@@ -1,0 +1,26 @@
+format:
+  pdf:
+    documentclass: book
+    toc: true
+    lof: false
+    lot: false
+
+    keep-tex: true
+    pdf-engine: lualatex
+    mainfont: "STIX Two Text"
+    mathfont: "STIX Two Math"
+    fontsize: 11pt
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    date: today
+    date-format: "D MMMM YYYY"
+
+    author:
+      - name: Antoine Boulet
+        orcid: 0000-0003-3839-6090
+        email: antoine.boulet+pdf@protonmail.com
+
+    include-in-header:
+      text: |
+        \usepackage{caption}
+        \captionsetup{font=footnotesize}
