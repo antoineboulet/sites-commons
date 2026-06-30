@@ -32,10 +32,6 @@ body.sans-page {
   font-family: "IBM Plex Sans", sans-serif;
 }
 
-body.sans-page {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 body.sans-page :is(h1, h2, h3, h4, h5, h6) {
   font-family: inherit;
 }
