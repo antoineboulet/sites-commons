@@ -26,3 +26,8 @@ a[href^="https://antoineboulet.github.io/"]::after {
 .no-external-icon::after {
   display: none !important;
 }
+
+/* body sans style */
+body.sans-page {
+  font-family: "IBM Plex Sans", sans-serif;
+}
